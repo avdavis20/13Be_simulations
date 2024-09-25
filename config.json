@@ -1,0 +1,35 @@
+{
+    "workspace": {
+      "workspace_path": "/workspaces/attpc_simulations",
+      "kin_output_path": "/workspaces/attpc_simulations/output/kinematics",
+      "det_output_path": "/workspaces/attpc_simulations/output/detector",
+      "eloss_output_path": "/workspaces/attpc_simulations/output/eloss_calcs"
+    },
+    "beam_energy": 184.131,
+    "rxn_info": {
+      "inverse_kinematics": true,
+      "Z_tarlike": 4,
+      "A_tarlike": 12,
+      "Z_projlike": 1,
+      "A_projlike": 2,
+      "Z_ejectile": 1,
+      "A_ejectile": 1,
+      "Z_residual": 4,
+      "A_residual": 13
+    },
+    "target": {
+      "compound_name": "Propane Gas (C3H8)",
+      "compound": [
+        [6, 12, 3],
+        [1, 1, 8]
+        ],
+      "pressure": 760.0,
+      "thickness": null
+    },
+    "detector_geometry": {
+      "R": 30e-2,
+      "H": 100e-2,
+      "dead_zone": 3.0,
+      "threshold_entry": 6.0
+    }
+  }
