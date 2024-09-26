@@ -36,7 +36,7 @@ import matplotlib.pyplot as plt #type: ignore
 from attpc_engine import nuclear_map # type: ignore
 from pathlib import Path
 from decimal import Decimal
-from data_writer import Event, dataWriter
+from packages.data_writer import Event, dataWriter
 
 # SOME MISC. CONSTANT INITIALIZATIONS... 
 c_const = 299792458.0 #speed of light in m/s
