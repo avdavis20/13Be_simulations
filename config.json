@@ -1,6 +1,6 @@
 {
     "workspace": {
-      "workspace_path": "/workspaces/attpc_simulations",
+      "workspace_path": "Users/Owner/Desktop/AT-TPC Research/13Be_simulations/output/detector",
       "kin_output_path": "/workspaces/attpc_simulations/output/kinematics",
       "det_output_path": "/workspaces/attpc_simulations/output/detector",
       "eloss_output_path": "/workspaces/attpc_simulations/output/eloss_calcs"

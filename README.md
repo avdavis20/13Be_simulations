@@ -18,32 +18,40 @@ Detector: python apply_detector.py {simulation_file_name}
 Eloss: python eloss_calc.py {simulation_file_name}
 
 
-EDUCATIONAL REFERENCES FOR ATTPC-SPECIFIC PYTHON PACKAGES USED:
+EDUCATIONAL REFERENCES ~
+
 - ATTPC_ENGINE DOCUMENTATION: https://attpc.github.io/attpc_engine/
 - SPYRAL-UTILS DOCUMENTATION: https://attpc.github.io/spyral-utils/
+- GRAPHING RESOURCE: https://how2matplotlib.com/how-to-plot-a-histogram-with-various-variables-in-matplotlib-in-python.html
 
 
 
-How I want this repo to be structured (I think?):
+REPO STRUCTURE ~
+
 13Be_simulations
 -- .venv
--- .gitignore
--- README.md
--- src
-    -- __init__.py
-    -- generate_kinematics.py
-    -- apply_detector.py
-    -- eloss_calc.py
--- packages
-    -- data_writer.py
-    -- converth5.py
--- output
-    -- detector (where apply_detector data is written to)
-    -- kinematics (where generate_kinematics data is written to)
-    -- eloss_calcs (where eloss_calc data is written to)
 -- notebooks
+    -- __ init __.py
     -- graph_results.ipynb
+-- output
+    -- detector
+    -- kinematics
+    -- eloss_calcs
+-- src
+    -- __ init __.py
+    -- kinematics_simulation
+        -- __ init __.py
+        -- detector
+            -- __ init __.py
+            -- generate_kinematics.py
+            -- apply_detector.py
+        -- eloss_calcs
+            -- __ init __.py
+            -- eloss_calc.py
+        -- writer
+            -- __ init __.py
+            -- data_writer.py
+-- .gitignore
 -- config.json
+-- README.md
 -- requirements.txt
-    
-

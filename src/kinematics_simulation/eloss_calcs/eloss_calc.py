@@ -36,7 +36,8 @@ import matplotlib.pyplot as plt #type: ignore
 from attpc_engine import nuclear_map # type: ignore
 from pathlib import Path
 from decimal import Decimal
-from packages.data_writer import Event, dataWriter
+from src.kinematics_simulation.writer.data_writer import Event, dataWriter
+Path("/Users/Owner/Desktop\AT-TPC Research\13Be_simulations\output\detector")
 
 # SOME MISC. CONSTANT INITIALIZATIONS... 
 c_const = 299792458.0 #speed of light in m/s
@@ -226,6 +227,7 @@ def test_event_validity(X,V,range_,R,H,v):
 config_path = '/workspaces/attpc_simulations/config.json'
 with open(config_path, 'r') as f:
     config = json.load(f)
+    Path(config["my_dir"]).mkdir() #make a directory from a path
 
 # READ IN & PARSE COMMAND LINE ARGUMENTS
 @click.command()
