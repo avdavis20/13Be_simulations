@@ -22,6 +22,7 @@ EDUCATIONAL REFERENCES ~
 
 - ATTPC_ENGINE DOCUMENTATION: https://attpc.github.io/attpc_engine/
 - SPYRAL-UTILS DOCUMENTATION: https://attpc.github.io/spyral-utils/
+- VECTOR LIBRARY DOCUMENTATION: https://vector.readthedocs.io/en/develop/usage/intro.html
 - GRAPHING RESOURCE: https://how2matplotlib.com/how-to-plot-a-histogram-with-various-variables-in-matplotlib-in-python.html
 
 
