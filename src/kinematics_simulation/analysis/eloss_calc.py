@@ -37,7 +37,6 @@ from attpc_engine import nuclear_map # type: ignore
 from pathlib import Path
 from decimal import Decimal
 from src.kinematics_simulation.writer.data_writer import Event, dataWriter
-Path("/Users/Owner/Desktop\AT-TPC Research\13Be_simulations\output\detector")
 
 # SOME MISC. CONSTANT INITIALIZATIONS... 
 c_const = 299792458.0 #speed of light in m/s

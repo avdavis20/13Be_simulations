@@ -37,6 +37,9 @@ REPO STRUCTURE ~
     -- detector
     -- kinematics
     -- eloss_calcs
+-- scratchpaper
+    -- __ init __.py
+    -- Put any test code here
 -- src
     -- __ init __.py
     -- kinematics_simulation
