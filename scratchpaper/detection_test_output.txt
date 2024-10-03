@@ -1,0 +1,41 @@
+TEST CONDUCTED ON: 10/2/24 @ 8PM
+
+
+
+(.venv) C:\Users\Owner\Desktop\AT-TPC Research\13Be_simulations\src>"c:/Users/Owner/Desktop/AT-TPC Research/13Be_simulations/.venv/Scripts/python.exe" "c:/Users/Owner/Desktop/AT-TPC Research/13Be_simulations/scratchpaper/detection_test.py"
+
+
+
+DETECTION TEST RESULTS...
+
+
+Reaction Vertex:
+[0.5 0.6 0.7]
+
+4-momentum ([px,py,pz,E]_i):
+[(1., 5.,  9., 111.) (2., 6., 10., 222.) (3., 7., 11., 333.)
+ (4., 8., 12., 444.)]
+
+3-momentum ([px_i,py_i,pz_i]):
+[[ 1.  2.  3.  4.]
+ [ 5.  6.  7.  8.]
+ [ 9. 10. 11. 12.]]
+
+Energy ([E_i]):
+[111. 222. 333. 444.]
+
+Lab velocity ([vx_i,vy_i,vz_i]):
+[[0.00900901 0.00900901 0.00900901 0.00900901]
+ [0.04504505 0.02702703 0.02102102 0.01801802]
+ [0.08108108 0.04504505 0.03303303 0.02702703]]
+
+a, b, c of polynomial roots calculation:
+[0.00211022 0.00081162 0.00052305 0.00040581]
+[0.10810811 0.07207207 0.06006006 0.05405405]
+-120.39
+
+Parameterized intersection point btwn particle trajectory and constraints:
+[240.1149481857205, 387.6183701624509, 483.1246808113166, 548.672287577182]
+
+Particle detected?
+[True, True, True, True]

@@ -7,59 +7,68 @@ R = 11          # radius of detector
 H = 6           # height of detector
 
 
-# ANALYZE TRAJECTORY OF ONE PARTICLE
+# ANALYZE ALL PARTICLE TRAJECTORIES FOR ONE EVENT
 def detection_test(X0,P,range_):
     """
-    Parameterizes the trajectory of particle and applies geometric detector 
-    constraints. Determines whether or not particle will be detected.
+    Parameterizes the trajectory of particle and applies geometric detector constraints. 
+    Determines whether or not particle will be detected.
 
     Params:
-
-    -- X : 3-element array of starting position of particle.
-    -- P : 4-element vector array object of particles lab frame 3-momentum and energy.
-    -- range_ : particle's stopping distance within detector medium.
+    -- X0 [float]: Event vertex in R3.
+    -- P [vector.MomentumNumpy4D]: Array of 4-momentum vectors for all 4 particles in event.
+    -- range_ [float]: Array of particles' stopping distances within detector medium.
     
-
     Returns: 
-
-    --
-
+    -- is_detected (Bool): flag indicating if particle was detected.
     """
 
-    # FIRST, DETERMINE IF PARTICLE WILL BE DETECTED 
-    # Note: all of this step is done in the LAB frame.
+    # Parametrized particle trajectory:
+    # x(t) = x0 + vx * t
+    # y(t) = y0 + vy * t
+    # z(t) = z0 + vz * t
+
+    # Cylindrical surface boundary constraint:
+    # x(t)^2 + y(t)^2 = R^2
+    # 0 < z(t) < H
+
 
     # Split 4-momentum vector into 3-momentum and energy
-    P_lab = P[0:3] # particle's 3-momentum, in MeV/c
-    E_lab = P[3] # particle's energy, in MeV
-    [x0,y0,z0] = X0 # particle's starting location
+    p_ = np.array([np.array(P["px"]), np.array(P["py"]), np.array(P["pz"])]) # array of particles' 3-momenta, in MeV/c
+    E = np.array(P["E"]) # array of particles' energies, in MeV
+    [x0,y0,z0] = X0 # particles' starting location
 
-    # Calculate the particle's velocity in the lab frame
-    print(P_lab)
-    print((P_lab * c_const**2) / (E_lab) )
-    V_lab = [vx,vy,vz] = (P_lab * c_const**2) / (E_lab) 
+    # Calculate the particles' velocities in the lab frame
+    V_lab = [vx,vy,vz] = (p_ * c_const**2) / (E) 
 
-    # Calculate roots of perameterized equations of motion with constraint
+    # Calculate roots of parameterized equations of motion with applied constraints
     a = vx**2 + vy**2
-    print(a)
-    print(vx)
     b = 2 * (vx + vy)
     c = x0**2 + y0**2 - R**2
 
     # Calculate discriminant
     disc = b**2 - (4*a*c)
-
+    
     # Find roots of polynomial
-    if a == 0:  # If the particle never intersects the detector wall...
-        t1,t2 = ((-z0)/vz), ((H-z0),vz) # find intersection time with detector caps.
-    else: 
-        t1,t2 = (-b + (np.sqrt(disc) / (2.0 * a))), (-b - (np.sqrt(disc) / (2.0 * a)))
+    root1 = []
+    root2 = []
+    for i in range(len(a)):
+        # if trajectory doesn't intersect with cylinder wall... (aka, no x-y motion)
+        if a[i]==0:
+            root1.append((-z0)/vz[i])
+            root2.append((H-z0)/vz[i])
+        # ... calculate inntersection time at the caps.
+        else: 
+            root1.append(-b[i] + (np.sqrt(disc[i]) / (2.0 * a[i])))
+            root2.append(-b[i] - (np.sqrt(disc[i]) / (2.0 * a[i])))
 
-    # Remove the t that is negative, as its parametric trajectory was in the wrong direction
-    t_values = [t for t in [t1, t2] if t > 0]
-    if not t_values:
-        raise ValueError("Geometrical Constraint Error: No positive t-values found, indicating no valid intersection in the trajectory direction.")
-    t = min(t_values)
+    # Remove the root that is negative, as its parametric trajectory is in the opposite direction
+    t = []
+    for i in range(len(root1)):
+        t_values = [t for t in [root1[i], root2[i]] if t > 0]
+        t.append(min(t_values))
+        if not t_values:
+            t.append(000.)
+            raise ValueError("Geometrical Constraint Error: No positive t-values found, indicating no valid intersection in the trajectory direction.")
 
     # Calculate intersection point
     x_intersect = x0 + vx * t
@@ -67,24 +76,24 @@ def detection_test(X0,P,range_):
     z_intersect = z0 + vz * t    
 
     # Calculate minimized geometric distance btwn X0 and the constraint boundaries
-    geo_dist = geo_dist = np.sqrt((x_intersect - x0)**2 + (y_intersect - y0)**2 + (z_intersect - z0)**2)
+    geo_dist = np.sqrt((x_intersect - x0)**2 + (y_intersect - y0)**2 + (z_intersect - z0)**2)
 
     # Determine if particle will be detected based on geometric allowance of range distance
-    if geo_dist > range_:
-        is_detected = True
-    else: 
-        is_detected = False
+    is_detected = []
+    for i in range(len(range_)):
+        is_detected.append (True) if geo_dist[i] > range_[i] else is_detected.append(False)
 
-    print(f'Reaction Vertex:     {X0}')
-    print(f'4-momentum:          {P}')
-    print(f'3-momentum:          {P_lab}')
-    print(f'Energy:              {E_lab}')
-    print(f'Lab velocity:        {V_lab}')
-    print(f'a, b, c:             {a,b,c}')
-    print(f'Particle detected?   {is_detected}')
+    print('\n\n\nDETECTION TEST RESULTS...\n\n')
+    print(f'Reaction Vertex:\n{X0}\n')
+    print(f'4-momentum ([px,py,pz,E]_i):\n{P}\n')
+    print(f'3-momentum ([px_i,py_i,pz_i]):\n{p_}\n')
+    print(f'Energy ([E_i]):\n{E}\n')
+    print(f'Lab velocity ([vx_i,vy_i,vz_i]):\n{V_lab}\n')
+    print(f'a, b, c of polynomial roots calculation:\n{a}\n{b}\n{c}\n')
+    print(f'Parameterized intersection point btwn particle trajectory and constraints: \n{t}\n')
+    print(f'Particle detected?\n{is_detected}\n\n\n')
     
     return is_detected
-
 
 
 
