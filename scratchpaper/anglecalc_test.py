@@ -3,8 +3,7 @@ import vector
 c = 1.0 # natural units
 
 
-# SIMULATION OF GIVEN INFO
-
+# CALCULATE ANGLE 
 def calc_angles(P_lab):
     """ Calculates polar and azimuthal angles for each particle of a reaction event,
     from both lab and center of mass frames.

@@ -1,21 +1,21 @@
 {
     "workspace": {
-      "workspace_path": "Users/Owner/Desktop/AT-TPC Research/13Be_simulations/output/detector",
-      "kin_output_path": "/workspaces/attpc_simulations/output/kinematics",
-      "det_output_path": "/workspaces/attpc_simulations/output/detector",
-      "eloss_output_path": "/workspaces/attpc_simulations/output/eloss_calcs"
+      "workspace_path": "/Users/Owner/Desktop/AT-TPC Research/13Be_simulations/",
+      "kin_output_path": "/Users/Owner/Desktop/AT-TPC Research/13Be_simulations/output/kinematics",
+      "det_output_path": "/Users/Owner/Desktop/AT-TPC Research/13Be_simulations/output/detector",
+      "eloss_output_path": "/Users/Owner/Desktop/AT-TPC Research/13Be_simulations/output/eloss_calcs"
     },
     "beam_energy": 184.131,
     "rxn_info": {
       "inverse_kinematics": true,
-      "Z_tarlike": 4,
-      "A_tarlike": 12,
-      "Z_projlike": 1,
-      "A_projlike": 2,
-      "Z_ejectile": 1,
-      "A_ejectile": 1,
-      "Z_residual": 4,
-      "A_residual": 13
+      "Z_targ": 1,
+      "A_targ":2,
+      "Z_proj": 4,
+      "A_proj": 12,
+      "Z_ejec": 1,
+      "A_ejec": 1,
+      "Z_resi": 4,
+      "A_resi": 13
     },
     "target": {
       "compound_name": "Propane Gas (C3H8)",
@@ -32,4 +32,5 @@
       "dead_zone": 3.0,
       "threshold_entry": 6.0
     }
+
   }

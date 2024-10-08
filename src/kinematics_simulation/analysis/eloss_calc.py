@@ -226,7 +226,7 @@ def test_event_validity(X,V,range_,R,H,v):
 config_path = '/workspaces/attpc_simulations/config.json'
 with open(config_path, 'r') as f:
     config = json.load(f)
-    Path(config["my_dir"]).mkdir() #make a directory from a path
+    # Path(config["my_dir"]).mkdir() make a directory from a path
 
 # READ IN & PARSE COMMAND LINE ARGUMENTS
 @click.command()

@@ -9,8 +9,8 @@ import vector
 
 
 c_const = 1     # natural units
-R = 11          # radius of detector
-H = 6           # height of detector
+R = 30e-2          # radius of detector
+H = 100e-2           # height of detector
 
 
 
@@ -96,7 +96,7 @@ def detection_test(X0,P,range_):
     print(f'Energy ([E_i]):\n{E}\n')
     print(f'Lab velocity ([vx_i,vy_i,vz_i]):\n{V_lab}\n')
     print(f'a, b, c of polynomial roots calculation:\n{a}\n{b}\n{c}\n')
-    print(f'Parameterized intersection point btwn particle trajectory and constraints: \n{t}\n')
+    print(f'Parameterized intersection time btwn particle trajectory and constraints: \n{t}\n')
     print(f'Particle detected?\n{is_detected}\n\n\n')
     
     return is_detected
@@ -151,10 +151,10 @@ def main():
     
     # Define vector object array for 4-momentum test vectors in lab frame
     P_lab: vector.MomentumObject4D = vector.array({
-        "px": [0., 0., 0., 11200.96299385],
-        "py": [0., 0., 849.52457402, 2059.03274877],
-        "pz": [521.90268489, -100.4025915, 128.33202509, 1085.94967074],
-        "E": [-521.90268489, 100.4025915, 721.19254893, 12174.04607187]
+        "px": [0., 0., 0., 1875.61292879],
+        "py": [0., 0., 1233.50835481, 11268.67848734],
+        "pz": [51.25162181, 93.21752461, 59.42052789, 946.15089738],
+        "E": [51.25162181, 93.21752461, 1174.08782692, 12198.14051874]
     })
 
     # Run detection tests
