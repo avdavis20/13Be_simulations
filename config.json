@@ -18,12 +18,12 @@
       "A_resi": 13
     },
     "target": {
-      "compound_name": "Propane Gas (C3H8)",
+      "compound_name": "Deuterated Propane Gas (C3D8)",
       "compound": [
         [6, 12, 3],
-        [1, 1, 8]
+        [1, 2, 8]
         ],
-      "pressure": 760.0,
+      "pressure": 300.0,
       "thickness": null
     },
     "detector_geometry": {
