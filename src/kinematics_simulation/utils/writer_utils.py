@@ -1,6 +1,12 @@
 from dataclasses import dataclass 
 import numpy as np
 import h5py
+from matplotlib.backends.backend_pdf import PdfPages
+import matplotlib.pyplot as plt
+from tqdm import tqdm
+import os
+from pathlib import Path
+
 
 @dataclass
 class EventData:
@@ -21,6 +27,75 @@ class dataWriter:
         self.verbose = verbose
         self.debugWrite = debugWrite
     
+    def save_plots_to_pdf(self, grapher, filename='trace_signals_summary.pdf'):
+        """
+        Save plots of all trace events to a PDF, arranged in a compact grid layout.
+        """
+        try:
+            # Ensure output directory is a Path object
+            out_dir_path = Path(self.out_dir)
+
+            # Define the output path for the PDF
+            pdf_path = out_dir_path / filename
+
+            # Delete the old PDF if it exists
+            if pdf_path.exists():
+                pdf_path.unlink()
+
+            # Create a new PDF file and plot all events in a grid format
+            with PdfPages(pdf_path) as pdf:
+                skipped_events = []
+                print(f"Plotting signals for all {len(grapher.data)} events...")
+
+                # Initialize the figure for grid layout
+                fig, axes = plt.subplots(3, 4, figsize=(20, 15))  # 3 rows x 4 columns for 12 graphs per page
+                axes = axes.flatten()
+                current_plot = 0
+
+                for event_key, event_data in tqdm(grapher.data.items()):
+                    if event_data.shape[0] < 2:
+                        skipped_events.append(event_key)
+                        continue
+
+                    # Plot all available directions for the event on the same graph
+                    ax = axes[current_plot]
+                    for i in range(event_data.shape[0]):
+                        ax.plot(event_data[i, :], label=f"Direction {i + 1}")
+
+                    ax.set_xlabel("Time Bins")
+                    ax.set_ylabel("Signal Amplitude")
+                    ax.set_title(f"Event: {event_key}")
+                    ax.legend()
+                    ax.grid(True)
+
+                    current_plot += 1
+
+                    # If the grid is full, save the page and reset for the next set of plots
+                    if current_plot == len(axes):
+                        plt.tight_layout()
+                        pdf.savefig(fig)  # Save the current figure (page) into the PDF
+                        plt.close(fig)
+
+                        # Create a new figure for the next set of plots
+                        fig, axes = plt.subplots(3, 4, figsize=(20, 15))
+                        axes = axes.flatten()
+                        current_plot = 0
+
+                # Save the remaining plots if there are any
+                if current_plot > 0:
+                    for i in range(current_plot, len(axes)):
+                        fig.delaxes(axes[i])  # Remove unused subplots
+                    plt.tight_layout()
+                    pdf.savefig(fig)
+                    plt.close(fig)
+
+                print("Finished plotting all events.")
+                if skipped_events:
+                    print(f"{len(skipped_events)} skipped events due to insufficient data shape: {skipped_events}")
+
+        except Exception as e:
+            print(f"An error occurred while saving plots to PDF: {e}")
+        
     def write_data(self, event: EventData):
         """
         Writes a single event to the HDF5 file, appending the event to the file.
@@ -63,7 +138,6 @@ class dataWriter:
                 if self.debugWrite:
                     print(f"Storing kinetic energies for event {event.event_num}: {event.event_KEs}")
                 event_group.create_dataset('event_KEs', data=np.array(event.event_KEs))
-
 
                 # Store velocities in a group (using vector.array) if they are not empty
                 velocities_group = event_group.create_group('velocities')

@@ -45,6 +45,7 @@ class elossUtils():
         # Initialize Detector Geometry Info
         self.R = None
         self.H = None
+        self.dead_zone = None
 
         # Initialize Event Data Storage
         self.P_lab = None
@@ -80,6 +81,7 @@ class elossUtils():
 
         self.R = self.config['detector_geometry']['R']     # radius of detector
         self.H = self.config['detector_geometry']['H']     # height of detector     
+        self.dead_zone = self.config['detector_geometry']['dead_zone']  # radius of the opening at end of attpc
 
 
     def welcome(self):
@@ -308,6 +310,16 @@ class elossUtils():
                 if self.debugDetect:
                     print(f"Intersection point:\n   x = {intersection_pt['x']:.3f},\n   y = {intersection_pt['y']:.3f},\n   z = {intersection_pt['z']:.3f}\n")
             
+            # Check if the particle passes through the dead zone (hole in the top cap)
+            if t_top is not None and t_top == t_min:
+                # Calculate radial distance from the center of the top cap
+                r_top = np.sqrt(intersection_pt['x']**2 + intersection_pt['y']**2)
+                if r_top <= self.dead_zone:
+                    if self.debugDetect:
+                        print(f"Particle passes through the cap hole (radius {r_top:.3f} <= dead zone {self.dead_zone:.3f}).")
+                    is_detected.append(True)
+                    continue  # Particle passes through the dead zone, so it's detected
+                
                 # Calculate linear geometric distance btwn X0 and the constraint boundaries
                 geo_dist = np.sqrt((intersection_pt['x'] - x0)**2 + (intersection_pt['y'] - y0)**2 + (intersection_pt['z'] - z0)**2)
                 if self.debugDetect:
@@ -339,7 +351,7 @@ class elossUtils():
         Attributes:
         - event_KEs [float]: Kinetic energy of particles in a given event.
         """
-        self.event_KEs = P_lab['E'] - (np.array([nuclear_map.get_data(self.Z[i],self.A[i]).atomic_mass for i in range(4)]) * 931.494)
+        self.event_KEs = P_lab['E'] - np.array([nuclear_map.get_data(self.Z[i],self.A[i]).mass for i in range(4)])
 
 
     def calc_angles(self, P_lab: vector.MomentumObject4D):
@@ -377,3 +389,5 @@ class elossUtils():
             print(f'CM Frame 4-vectors: \n{P_cm}\n')
             print(f'LAB ANGLES:\n   Polar:     {self.angles_lab[0]}\n   Azimuthal: {self.angles_lab[1]}\n')
             print(f'CM ANGLES:\n    Polar:    {self.angles_cm[0]}\n   Azimuthal: {self.angles_cm[1]}')
+
+
